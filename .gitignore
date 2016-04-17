@@ -19,3 +19,5 @@ core
 *.swp
 *.DS_Store
 *.lock
+/Front-end Frameworks - Bootstrap/HTML5Application/nbproject/private/
+/Front-end Frameworks - Bootstrap/conFusion/nbproject/private/
