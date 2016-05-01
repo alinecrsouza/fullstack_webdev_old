@@ -58,8 +58,9 @@
                                                            aria-hidden="true"></span> Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a data-toggle="modal" data-target="#loginModal">
-                                <span class="glyphicon glyphicon-log-in"></span> Login</a>
+                        <!--<li><a data-toggle="modal" data-target="#loginModal">-->
+                        <li>
+                            <a id="loginButton"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                         </li>
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -95,7 +96,8 @@
                                 <button type="submit" class="btn btn-info btn-sm" aria-label="Sign In">Sign in</button>
                             </div>
                             <div class="form-group">
-                                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                                <!--<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>-->
+                                <button type="button" class="btn btn-default btn-sm" id="cancelLogin">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -166,10 +168,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group form-inline">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button type="submit" class="btn btn-primary">Reserve</button>
-                                </div>
+                                    <!--<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>-->
+                                    <button type="button" class="btn btn-default btn-sm" id="cancelReserve">Cancel</button>
+                                </div> 
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-8">
@@ -203,8 +207,8 @@
                     </div>
                     <div class="col-xs-12 col-sm-2">
                         <p style="padding:40px;"></p>
-                        <a data-toggle="modal" data-target="#reserveModal" class="btn btn-warning btn-block">
-                            Reserve Table</a>                        
+                        <!--<a data-toggle="modal" data-target="#reserveModal" class="btn btn-warning btn-block">-->
+                        <a id="reserveButton" class="btn btn-warning btn-block">Reserve Table</a>                        
                         <!-- <a type="button" class="btn btn-warning btn-block"
                            data-toggle="tooltip" title="Or Call us at +852 12345678"
                            data-placement="bottom" href="#reserveform">Reserve Table</a> -->
@@ -422,6 +426,18 @@
                 });
                 $("#carousel-play").click(function () {
                     $("#mycarousel").carousel('cycle');
+                });
+                $("#loginButton").click(function () {
+                    $('#loginModal').modal('show');
+                });
+                $("#reserveButton").click(function () {
+                    $('#reserveModal').modal('show');
+                });
+                $("#cancelReserve").click(function () {
+                    $('#reserveModal').modal('hide');
+                });
+                $("#cancelLogin").click(function () {
+                    $('#loginModal').modal('hide');
                 });
             });
         </script>
