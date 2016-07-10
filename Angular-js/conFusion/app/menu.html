@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" ng-app> <!-- configure the page to be an Angular application -->
+<html lang="en" ng-app="confusionApp"> <!-- creating Angular Module -->
 
 <head>
-     <meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head
@@ -25,25 +25,46 @@
 
 <body>
 
-    <div class="container">
-        <!-- adding Data using ng-init -->
-        <!--div class="row row-content" 
-            ng-init="
-            dish=
-            {
-                name:'Uthapizza',
-                image: 'images/uthapizza.png',
-                category: 'mains',
-                label:'Hot', 
-                price:'4.99',
-                description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.',
-                comment: ''
-            }"-->
-        <!-- now ng-init contains an array of JavaScript objects -->
-        <div class="row row-content"
-                       ng-init="
-                         dishes=[
-                         {
+    <div class="container">        
+        <!-- attaching the Controller and creating an alias -->
+        <div class="row row-content" ng-controller="menuController as menuCtrl">            
+            <div class="col-xs-12">
+               <!-- create a list of media objects so that the menu can be 
+               displayed on the page constructed from the JavaScript object 
+               array. We take the help of the ng-repeat directive for this. -->
+               <ul class="media-list">
+                   <!-- turns avaiable the dishes object of the menuController -->
+                    <li class="media" ng-repeat="dish in menuCtrl.dishes">
+                        <div class="media-left media-middle">
+                            <a href="#">
+                            <img class="media-object img-thumbnail"
+                             ng-src={{dish.image}} alt="Uthappizza">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h2 class="media-heading">{{dish.name}}
+                             <span class="label label-danger">{{dish.label}}</span>
+                             <span class="badge">{{dish.price | currency}}</span></h2>
+                            <p>{{dish.description}}</p>
+                            <p>Comment: {{dish.comment}}</p>
+                            <p>Type your comment:
+                             <input type="text" ng-model="dish.comment"></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>            
+        </div>
+    </div>  
+    <!-- adding Angular to the File -->
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <!-- create the Angular module -->
+    <script>
+        var app = angular.module('confusionApp',[]);
+        //adds a controller to the app
+        app.controller('menuController', function() {
+            //Cut out the ng-init from the div completely, and add the following code to the Controller
+            var dishes=[
+                        {
                            name:'Uthapizza',
                            image: 'images/uthapizza.png',
                            category: 'mains',
@@ -79,56 +100,10 @@
                            description:'A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms',
                            comment: ''
                         }
-                        ]">
-            <!--<div class="col-xs-12">
-                <!-- adding Menu Item using Media Object 
-                <div class="media">
-                    <div class="media-left media-middle">
-                        <a href="#">
-                        <img class="media-object img-thumbnail"
-                         ng-src={{dish.image}} alt="Uthappizza">
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h2 class="media-heading">{{dish.name}}
-                         <span class="label label-danger">{{dish.label}}</span>
-                         <span class="badge">{{dish.price | currency}}</span></h2>
-                        <p>{{dish.description}}</p>
-                        <!--  Two-way Binding example 
-                        <p>Comment: {{dish.comment}}</p>
-                        <p>Type your comment:
-                         <input type="text" ng-model="dish.comment"></p>                        
-                    </div>
-                </div>
-            </div>-->
-            <div class="col-xs-12">
-               <!-- create a list of media objects so that the menu can be 
-               displayed on the page constructed from the JavaScript object 
-               array. We take the help of the ng-repeat directive for this. -->
-               <ul class="media-list">
-                    <li class="media" ng-repeat="dish in dishes">
-                        <div class="media-left media-middle">
-                            <a href="#">
-                            <img class="media-object img-thumbnail"
-                             ng-src={{dish.image}} alt="Uthappizza">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <h2 class="media-heading">{{dish.name}}
-                             <span class="label label-danger">{{dish.label}}</span>
-                             <span class="badge">{{dish.price | currency}}</span></h2>
-                            <p>{{dish.description}}</p>
-                            <p>Comment: {{dish.comment}}</p>
-                            <p>Type your comment:
-                             <input type="text" ng-model="dish.comment"></p>
-                        </div>
-                    </li>
-                </ul>
-            </div>            
-        </div>
-    </div>  
-    <!-- adding Angular to the File -->
-    <script src="../bower_components/angular/angular.min.js"></script> 
+                        ];
+            this.dishes = dishes;
+        });
+    </script>
 </body>
 
 </html>
