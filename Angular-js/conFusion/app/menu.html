@@ -8,12 +8,14 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head
          content must come *after* these tags -->
     <title>Ristorante Con Fusion: Menu</title>
-        <!-- Bootstrap -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="styles/bootstrap-social.css" rel="stylesheet">
-    <link href="styles/mystyles.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <!-- build:css styles/main.css -->
+        <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="styles/bootstrap-social.css" rel="stylesheet">
+        <link href="styles/mystyles.css" rel="stylesheet">
+    <!-- endbuild -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,81 +31,73 @@
         <!-- attaching the Controller and creating an alias -->
         <div class="row row-content" ng-controller="menuController as menuCtrl">            
             <div class="col-xs-12">
-               <!-- create a list of media objects so that the menu can be 
-               displayed on the page constructed from the JavaScript object 
-               array. We take the help of the ng-repeat directive for this. -->
-               <ul class="media-list">
-                   <!-- turns avaiable the dishes object of the menuController -->
-                    <li class="media" ng-repeat="dish in menuCtrl.dishes">
-                        <div class="media-left media-middle">
-                            <a href="#">
-                            <img class="media-object img-thumbnail"
-                             ng-src={{dish.image}} alt="Uthappizza">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <h2 class="media-heading">{{dish.name}}
-                             <span class="label label-danger">{{dish.label}}</span>
-                             <span class="badge">{{dish.price | currency}}</span></h2>
-                            <p>{{dish.description}}</p>
-                            <p>Comment: {{dish.comment}}</p>
-                            <p>Type your comment:
-                             <input type="text" ng-model="dish.comment"></p>
-                        </div>
-                    </li>
+                <!-- Setting up Tabbed Navigation for the Menu -->
+                <!-- Whenever the user clicks on a tab, we need to activate that
+                tab. To do this, we take the help of the ng-click directive. -->
+                 <ul class="nav nav-tabs" role="tablist">
+                     <!-- We take the help of the ng-class directive in order to
+                     add the Bootstrap active class to the selected tab. Note 
+                     that for each of the <li> elements, we introduced the 
+                     ng-class="{active:menuCtrl.isSelected(i)}" directive. 
+                     This directive will apply the active class to that element,
+                     if the function on the right (that specifies a condition) 
+                     evaluates to true.-->
+                    <li role="presentation"
+                     ng-class="{active:menuCtrl.isSelected(1)}">
+                    <a ng-click="menuCtrl.select(1)"
+                     aria-controls="all menu"
+                     role="tab">The Menu</a></li>
+                    <li role="presentation"
+                     ng-class="{active:menuCtrl.isSelected(2)}">
+                    <a ng-click="menuCtrl.select(2)"
+                     aria-controls="appetizers"
+                     role="tab">Appetizers</a></li>
+                    <li role="presentation"
+                     ng-class="{active:menuCtrl.isSelected(3)}">
+                    <a ng-click="menuCtrl.select(3)"
+                     aria-controls="mains"
+                     role="tab">Mains</a></li>
+                    <li role="presentation"
+                     ng-class="{active:menuCtrl.isSelected(4)}">
+                    <a  ng-click="menuCtrl.select(4)"
+                     aria-controls="desserts"
+                     role="tab">Desserts</a></li>
                 </ul>
+                <!-- create a list of media objects so that the menu can be 
+                displayed on the page constructed from the JavaScript object 
+                array. We take the help of the ng-repeat directive for this. -->
+                <!-- encloses the entire menu construction inside a tab pane -->
+                <div class="tab-content">
+                    <ul class="media-list tab-pane fade in active">
+                       <!-- We take the help of the Angular filter to select only 
+                       those items from the menu corresponding to each tab. The 
+                       filter will use the variable filtText from the menucontroller 
+                       to filter the items from the dishes array. -->
+                        <li class="media" ng-repeat="dish in menuCtrl.dishes | filter:menuCtrl.filtText">
+                            <div class="media-left media-middle">
+                                <a href="#">
+                                <img class="media-object img-thumbnail"
+                                 ng-src={{dish.image}} alt="Uthappizza">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h2 class="media-heading">{{dish.name}}
+                                 <span class="label label-danger">{{dish.label}}</span>
+                                 <span class="badge">{{dish.price | currency}}</span></h2>
+                                <p>{{dish.description}}</p>                            
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>            
         </div>
-    </div>  
-    <!-- adding Angular to the File -->
-    <script src="../bower_components/angular/angular.min.js"></script>
-    <!-- create the Angular module -->
-    <script>
-        var app = angular.module('confusionApp',[]);
-        //adds a controller to the app
-        app.controller('menuController', function() {
-            //Cut out the ng-init from the div completely, and add the following code to the Controller
-            var dishes=[
-                        {
-                           name:'Uthapizza',
-                           image: 'images/uthapizza.png',
-                           category: 'mains',
-                           label:'Hot',
-                           price:'4.99',
-                           description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.',
-                           comment: ''
-                        },
-                        {
-                           name:'Zucchipakoda',
-                           image: 'images/zucchipakoda.png',
-                           category: 'appetizer',
-                           label:'',
-                           price:'1.99',
-                           description:'Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce',
-                           comment: ''
-                        },
-                        {
-                           name:'Vadonut',
-                           image: 'images/vadonut.png',
-                           category: 'appetizer',
-                           label:'New',
-                           price:'1.99',
-                           description:'A quintessential ConFusion experience, is it a vada or is it a donut?',
-                           comment: ''
-                        },
-                        {
-                           name:'ElaiCheese Cake',
-                           image: 'images/elaicheesecake.png',
-                           category: 'dessert',
-                           label:'',
-                           price:'2.99',
-                           description:'A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms',
-                           comment: ''
-                        }
-                        ];
-            this.dishes = dishes;
-        });
-    </script>
+    </div> 
+    <!-- build:js scripts/main.js -->
+        <!-- adding Angular to the File -->
+        <script src="../bower_components/angular/angular.min.js"></script>  
+        <!-- adding Angular Module to the File -->
+        <script src="scripts/app.js"></script>
+    <!-- endbuild -->
 </body>
 
 </html>
